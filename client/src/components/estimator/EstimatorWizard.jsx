@@ -257,7 +257,7 @@ export default function EstimatorWizard() {
       </div>
 
       {/* Dynamic Content */}
-      <div className="min-h-[220px]">
+      <div key={currentStepIndex} className="min-h-[220px] animate-step-in">
         {!isContactStep && currentQuestion && (
           <QuestionField
             question={currentQuestion}

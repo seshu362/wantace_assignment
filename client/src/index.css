@@ -2,23 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: #090d16;
-  color: #f1f5f9;
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #070b14;
+    color: #f1f5f9;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
-/* Custom Glassmorphism Card Style */
+/* Custom Glassmorphism System */
 .glass-card {
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(15, 23, 42, 0.85);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.glass-card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .glass-card-hover:hover {
   border-color: rgba(56, 189, 248, 0.4);
-  box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.2);
+  box-shadow: 0 12px 36px -10px rgba(14, 165, 233, 0.25);
+  transform: translateY(-2px);
 }
 
 /* Hide native browser number input spinners */
@@ -31,13 +40,43 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* Custom Scrollbar */
+/* Smooth Fade & Slide-In Animation for Wizard Steps */
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-step-in {
+  animation: stepFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Subtle Pulse Glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(14, 165, 233, 0.6);
+  }
+}
+
+.animate-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* Custom Touch & Mobile Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #070b14;
 }
 ::-webkit-scrollbar-thumb {
   background: #1e293b;

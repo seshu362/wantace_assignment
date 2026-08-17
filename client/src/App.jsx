@@ -10,14 +10,14 @@ export default function App() {
     <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col font-sans">
       {/* Top Business Navigation Bar */}
       <header className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 min-h-[5rem] py-3 flex flex-col sm:flex-row items-center justify-between gap-3">
           {/* Logo Branding */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveSurface('estimator')}>
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-sky-500/20">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-sky-500/20 shrink-0">
               <Wrench className="w-5 h-5 text-slate-950 stroke-[2.5]" />
             </div>
             <div>
-              <span className="text-lg font-extrabold tracking-tight text-white block">
+              <span className="text-base sm:text-lg font-extrabold tracking-tight text-white block">
                 Northline Roofing <span className="text-sky-400 font-light">& Exteriors</span>
               </span>
               <span className="text-[11px] text-slate-400 block -mt-1 font-medium">Columbus, OH</span>
@@ -25,27 +25,27 @@ export default function App() {
           </div>
 
           {/* Surface Toggle Buttons */}
-          <div className="flex items-center space-x-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 bg-slate-900/90 p-1.5 rounded-2xl border border-slate-800 w-full sm:w-auto justify-center">
             <button
               onClick={() => setActiveSurface('estimator')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+              className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 sm:gap-2 ${
                 activeSurface === 'estimator'
                   ? 'bg-sky-600 text-white shadow-lg shadow-sky-600/30'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <Calculator className="w-4 h-4" /> Homeowner Estimator
+              <Calculator className="w-4 h-4" /> <span>Homeowner Estimator</span>
             </button>
 
             <button
               onClick={() => setActiveSurface('owner')}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-2 ${
+              className={`px-3.5 sm:px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 sm:gap-2 ${
                 activeSurface === 'owner'
                   ? 'bg-sky-600 text-white shadow-lg shadow-sky-600/30'
                   : 'text-slate-400 hover:text-white'
               }`}
             >
-              <ShieldCheck className="w-4 h-4" /> Owner Panel
+              <ShieldCheck className="w-4 h-4" /> <span>Owner Panel</span>
             </button>
           </div>
         </div>

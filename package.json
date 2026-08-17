@@ -1,0 +1,22 @@
+{
+  "name": "roof-estimator-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Config-Driven Roofing Estimator & Owner Panel for Northline Roofing & Exteriors",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "setup": "npm install --prefix server && npm install --prefix client",
+    "seed": "npm run seed --prefix server",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build": "npm run build --prefix client && npm run build --prefix server",
+    "test": "npm run test --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

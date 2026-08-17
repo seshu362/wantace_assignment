@@ -8,9 +8,9 @@ Built for the **Wantace SDE Take-Home Task**.
 ## 🚀 Live Deployed Links
 
 - **GitHub Repository:** [https://github.com/seshu362/wantace_assignment](https://github.com/seshu362/wantace_assignment)
-- **Public Estimator Surface (Render / Live):** `https://roof-estimator-client.onrender.com`
-- **Owner Panel Surface:** `https://roof-estimator-client.onrender.com` *(Click **Owner Panel** in top navigation bar)*
-- **Backend REST API:** `https://wantace-assignment.onrender.com/api/config`
+- **Public Estimator Surface (Render / Live):** [https://northline-roofing-estimator-xaq6.onrender.com](https://northline-roofing-estimator-xaq6.onrender.com)
+- **Owner Panel Surface (Render / Live):** [https://northline-roofing-estimator-xaq6.onrender.com](https://northline-roofing-estimator-xaq6.onrender.com) *(Click **Owner Panel** in top navigation)*
+- **Backend REST API:** [https://wantace-assignment-7m2t.onrender.com/api/config](https://wantace-assignment-7m2t.onrender.com/api/config)
 
 ---
 
@@ -29,7 +29,7 @@ Access to Surface 2 (Owner & Bookkeeper Panel) is protected by authentication:
 
 ### Surface 1: Public Homeowner Estimator
 - **100% Dynamic Engine:** Every question, label, option, range limit, unit, and calculation rate is fetched from `GET /api/config` at runtime. **Zero hardcoded questions or pricing in client code.**
-- **Multi-Step Wizard:** Smooth step-by-step navigation with progress indicator bar, dynamic input rendering (`number` inputs with range validation, `select` radio card options), and contact details capture step.
+- **Multi-Step Wizard:** Smooth step-by-step navigation with progress indicator bar, dynamic input rendering (`number` inputs with range validation, `select` radio card options), step fade-in animations, and contact details capture step.
 - **Server-Side Pricing Display:** Displays the calculated cost range ($E_{\text{low}}$ to $E_{\text{high}}$) with detailed cost breakdown (materials, labor, tear-off, multipliers, permit flat fee).
 
 ### Surface 2: Owner & Bookkeeper Panel (Dale & Marcus)
@@ -74,7 +74,7 @@ ADMIN_PASSWORD=roofing2026!
 JWT_SECRET=roofing_estimator_secret_key_2026
 NODE_ENV=development
 ```
-*(Note: If `MONGODB_URI` is left blank, the backend automatically initializes an in-memory MongoDB database with Version 3 seed data for instant zero-setup local execution!)*
+*(Note: If `MONGODB_URI` is left blank, the backend automatically initializes an in-memory database with Version 3 seed data for instant zero-setup local execution!)*
 
 ### 3. Run Development Servers
 ```bash

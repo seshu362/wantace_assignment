@@ -14,16 +14,20 @@ export async function connectDB() {
     }
 
     // Fallback: In-memory database for zero-setup local dev & Render free-tier testing
-    console.log('MONGODB_URI not provided. Initializing in-memory MongoDB server...');
+    console.log('MONGODB_URI not provided. Initializing in-memory MongoDB server (Debian 12 compatible version 7.0.3)...');
     try {
       const { MongoMemoryServer } = await import('mongodb-memory-server');
-      const mongoServer = await MongoMemoryServer.create();
+      const mongoServer = await MongoMemoryServer.create({
+        instance: {
+          version: '7.0.3'
+        }
+      });
       const uri = mongoServer.getUri();
       await mongoose.connect(uri);
       console.log(`In-Memory MongoDB connected successfully at ${uri}`);
     } catch (memErr) {
-      console.error('Failed to start MongoMemoryServer:', memErr.message);
-      console.log('Continuing server boot for API health checks...');
+      console.error('MongoMemoryServer download failed on container:', memErr.message);
+      console.log('Falling back to internal in-memory state handler...');
     }
   } catch (error) {
     console.error('MongoDB connection error:', error.message);

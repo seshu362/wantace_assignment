@@ -40,12 +40,16 @@ app.get('/api/admin/leads', authenticateOwner, getAdminLeads);
 async function initServer() {
   await connectDB();
 
-  const configCount = await Config.countDocuments();
-  if (configCount === 0) {
-    console.log('Database is empty. Populating Seed Version 3 and historical leads...');
-    await Config.create(seedData);
-    await Lead.insertMany(seedLeads);
-    console.log('Database seeded successfully!');
+  try {
+    const configCount = await Config.countDocuments();
+    if (configCount === 0) {
+      console.log('Database is empty. Populating Seed Version 3 and historical leads...');
+      await Config.create(seedData);
+      await Lead.insertMany(seedLeads);
+      console.log('Database seeded successfully!');
+    }
+  } catch (seedErr) {
+    console.error('Seeding check notice:', seedErr.message);
   }
 
   app.listen(PORT, () => {

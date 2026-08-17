@@ -38,8 +38,14 @@ export default function ConfigEditor({ token }) {
 
   const handleQuestionToggle = (qIndex) => {
     setConfig((prev) => {
-      const newQs = [...prev.questions];
-      newQs[qIndex].active = !newQs[qIndex].active;
+      if (!prev || !Array.isArray(prev.questions)) return prev;
+      const newQs = prev.questions.map((q, idx) => {
+        if (idx === qIndex) {
+          const currentActive = q.active !== false;
+          return { ...q, active: !currentActive };
+        }
+        return q;
+      });
       return { ...prev, questions: newQs };
     });
   };
@@ -236,22 +242,22 @@ export default function ConfigEditor({ token }) {
                 />
               </div>
 
-              <div className="flex items-center gap-3">
-                <span className="text-xs font-semibold text-slate-400">
-                  {question.active ? 'Active on Public Tool' : 'Hidden / Inactive'}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => handleQuestionToggle(qIdx)}
-                  className="text-sky-400 hover:text-sky-300 transition"
-                >
-                  {question.active ? (
-                    <ToggleRight className="w-8 h-8 text-emerald-400" />
-                  ) : (
-                    <ToggleLeft className="w-8 h-8 text-slate-600" />
-                  )}
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => handleQuestionToggle(qIdx)}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border ${
+                  question.active !== false
+                    ? 'bg-emerald-950/80 border-emerald-500/50 text-emerald-400 shadow-md shadow-emerald-950/50'
+                    : 'bg-slate-900 border-slate-700 text-slate-400 hover:border-slate-600'
+                }`}
+              >
+                <span>{question.active !== false ? '🟢 Active on Public Tool' : '🔴 Hidden / Inactive'}</span>
+                {question.active !== false ? (
+                  <ToggleRight className="w-6 h-6 text-emerald-400 stroke-[2.5]" />
+                ) : (
+                  <ToggleLeft className="w-6 h-6 text-slate-500 stroke-[2.5]" />
+                )}
+              </button>
             </div>
 
             {/* Options & Rates Table for Select Questions */}

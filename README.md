@@ -5,9 +5,10 @@ Built for the **Wantace SDE Take-Home Task**.
 
 ---
 
-## 🚀 Live Deployed Links
+## 🚀 Live Deployed Links & Video Demo
 
 - **GitHub Repository:** [https://github.com/seshu362/wantace_assignment](https://github.com/seshu362/wantace_assignment)
+- **Video Demo (Google Drive):** [https://drive.google.com/file/d/1gLIWKEZ32xO_YfjiG6P5N_tcsKP5rkJE/view](https://drive.google.com/file/d/1gLIWKEZ32xO_YfjiG6P5N_tcsKP5rkJE/view)
 - **Public Estimator Surface (Render / Live):** [https://northline-roofing-estimator-xaq6.onrender.com](https://northline-roofing-estimator-xaq6.onrender.com)
 - **Owner Panel Surface (Render / Live):** [https://northline-roofing-estimator-xaq6.onrender.com](https://northline-roofing-estimator-xaq6.onrender.com) *(Click **Owner Panel** in top navigation)*
 - **Backend REST API:** [https://wantace-assignment-7m2t.onrender.com/api/config](https://wantace-assignment-7m2t.onrender.com/api/config)

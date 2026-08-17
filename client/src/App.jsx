@@ -16,11 +16,11 @@ export default function App() {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-emerald-400 flex items-center justify-center shadow-lg shadow-sky-500/20 shrink-0">
               <Wrench className="w-5 h-5 text-slate-950 stroke-[2.5]" />
             </div>
-            <div>
-              <span className="text-base sm:text-lg font-extrabold tracking-tight text-white block">
+            <div className="min-w-0">
+              <h1 className="text-sm sm:text-base md:text-lg font-extrabold tracking-tight text-white whitespace-nowrap">
                 Northline Roofing <span className="text-sky-400 font-light">& Exteriors</span>
-              </span>
-              <span className="text-[11px] text-slate-400 block -mt-1 font-medium">Columbus, OH</span>
+              </h1>
+              <span className="text-[10px] sm:text-[11px] text-slate-400 block -mt-0.5 font-medium">Columbus, OH</span>
             </div>
           </div>
 

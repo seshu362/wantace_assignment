@@ -21,6 +21,16 @@ body {
   box-shadow: 0 10px 30px -10px rgba(14, 165, 233, 0.2);
 }
 
+/* Hide native browser number input spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

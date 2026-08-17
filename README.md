@@ -1,83 +1,82 @@
-# Northline Roofing & Exteriors - Config-Driven Estimator & Owner Panel
+# Northline Roofing & Exteriors — Config-Driven Estimator & Owner Panel
 
-A full-stack, dynamic, configuration-driven web application for **Northline Roofing & Exteriors**. Built for the **Wantace SDE Take-Home Task**.
-
----
-
-## 🌟 Live Deployed Links
-
-- **Public Estimator Surface:** `https://your-app.vercel.app` (Or Render URL)
-- **Owner Panel Surface:** `https://your-app.vercel.app` (Click **Owner Panel** tab)
-- **Backend API:** `https://your-backend.onrender.com/api/config`
+A full-stack, dynamic, configuration-driven web application for **Northline Roofing & Exteriors**.  
+Built for the **Wantace SDE Take-Home Task**.
 
 ---
 
-## 🔑 Admin Credentials (Owner Panel)
+## 🚀 Live Deployed Links
 
-- **Username:** `admin`
-- **Password:** `roofing2026!`
-
----
-
-## 🚀 Key Features
-
-1. **Surface 1 — Public Estimator (Homeowner Facing):**
-   - 100% dynamic multi-step wizard.
-   - Every question, label, option, range limit, and rate is fetched from `GET /api/config` at runtime. Zero hardcoded questions or pricing in client code.
-   - Instant cost range calculation ($E_{\text{low}}$ to $E_{\text{high}}$) computed server-side with lead contact capture.
-
-2. **Surface 2 — Owner Panel (Dale & Marcus Facing):**
-   - Protected admin authentication (Basic Auth / Bearer JWT).
-   - Real-time rate and multiplier editor: update material rates ($/sq ft), pitch multipliers, tear-off fees, and global modifiers.
-   - Question toggles: turn questions on/off instantly without touching code or triggering redeployments.
-   - Lead management dashboard: inspect captured leads, timestamps, and submitted homeowner answers.
-
-3. **Backend Pricing Engine:**
-   - Server-side deterministic arithmetic protecting proprietary pricing logic and preventing client-side tampering.
+- **GitHub Repository:** [https://github.com/seshu362/wantace_assignment](https://github.com/seshu362/wantace_assignment)
+- **Public Estimator Surface (Render / Live):** `https://roof-estimator-client.onrender.com`
+- **Owner Panel Surface:** `https://roof-estimator-client.onrender.com` *(Click **Owner Panel** in top navigation bar)*
+- **Backend REST API:** `https://wantace-assignment.onrender.com/api/config`
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 🔑 Owner Panel Test Credentials
 
-- **Frontend:** React (Vite), Tailwind CSS, Lucide Icons
+Access to Surface 2 (Owner & Bookkeeper Panel) is protected by authentication:
+
+| Field | Value |
+|---|---|
+| **Username** | `admin` |
+| **Password** | `roofing2026!` |
+
+---
+
+## 🌟 Key Product Features
+
+### Surface 1: Public Homeowner Estimator
+- **100% Dynamic Engine:** Every question, label, option, range limit, unit, and calculation rate is fetched from `GET /api/config` at runtime. **Zero hardcoded questions or pricing in client code.**
+- **Multi-Step Wizard:** Smooth step-by-step navigation with progress indicator bar, dynamic input rendering (`number` inputs with range validation, `select` radio card options), and contact details capture step.
+- **Server-Side Pricing Display:** Displays the calculated cost range ($E_{\text{low}}$ to $E_{\text{high}}$) with detailed cost breakdown (materials, labor, tear-off, multipliers, permit flat fee).
+
+### Surface 2: Owner & Bookkeeper Panel (Dale & Marcus)
+- **Protected Authentication:** Secured via admin login (Bearer JWT / Basic HTTP Auth).
+- **Config & Pricing Editor:** Business owners (Dale) and bookkeepers (Marcus) can edit question labels, toggle question active status, edit material rates ($/sq ft), pitch multipliers, tear-off fees, and global modifiers (`waste_factor`, `permit_flat_fee`, `range_spread_pct`).
+- **Instant Live Updates:** Saving changes in the Owner Panel increments `config_version` and reflects immediately on the Public Estimator without redeploying code or restarting the server.
+- **Lead Management Dashboard:** Displays all captured customer leads with timestamp, contact info, estimate range, and expandable submitted answers.
+
+---
+
+## 🛠️ Stack & Architecture
+
+- **Frontend:** React (Vite), Tailwind CSS, Lucide Icons, Glassmorphism UI
 - **Backend:** Node.js, Express.js REST API
-- **Database:** MongoDB (Mongoose) with fallback in-memory server support
-- **Auth:** JWT / Basic HTTP Auth
+- **Database:** MongoDB (Mongoose) with fallback in-memory server support (`mongodb-memory-server`)
+- **Testing:** Automated unit testing (`npm test` in `server`)
 
 ---
 
-## 💻 Local Quickstart (Clean Clone Steps)
+## 💻 Local Installation & Quickstart
 
 ### Prerequisites
 - Node.js v18.x or higher installed locally.
 - Git.
 
-### 1. Clone & Install Dependencies
+### 1. Clone Repository & Install Dependencies
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/seshu362/wantace_assignment.git
 cd wantace_assignment
 
-# Install all dependencies (Monorepo root setup)
+# Install dependencies for both server and client
 npm run setup
 ```
 
 ### 2. Configure Environment Variables
-Create `.env` file inside `server/` (or copy from `.env.example`):
+Create a `.env` file inside `server/` (or copy from `.env.example`):
 ```env
 PORT=5000
 MONGODB_URI=
 ADMIN_USERNAME=admin
 ADMIN_PASSWORD=roofing2026!
 JWT_SECRET=roofing_estimator_secret_key_2026
+NODE_ENV=development
 ```
-*(Note: If `MONGODB_URI` is left blank, the backend automatically initializes an in-memory MongoDB database with seed data for instant zero-setup local dev!)*
+*(Note: If `MONGODB_URI` is left blank, the backend automatically initializes an in-memory MongoDB database with Version 3 seed data for instant zero-setup local execution!)*
 
-### 3. Seed Database (Optional / Automatic)
-```bash
-npm run seed
-```
-
-### 4. Run Application Locally
+### 3. Run Development Servers
 ```bash
 # Run both Backend (Port 5000) and Frontend (Port 3000) concurrently
 npm run dev
@@ -85,7 +84,16 @@ npm run dev
 
 Open your browser to:
 - **Public Estimator:** [http://localhost:3000](http://localhost:3000)
-- **Owner Panel:** [http://localhost:3000](http://localhost:3000) (Click **Owner Panel** in header)
+- **Owner Panel:** [http://localhost:3000](http://localhost:3000) *(Click **Owner Panel** in top navigation)*
+
+---
+
+## 🧪 Running Automated Tests
+
+Run backend pricing engine unit tests:
+```bash
+npm test
+```
 
 ---
 
@@ -93,37 +101,31 @@ Open your browser to:
 
 ```
 wantace_assignment/
-├── client/                     # Frontend App (React/Vite)
+├── client/                     # Frontend App (React / Vite)
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── dynamic/        # Dynamic question field renderer
 │   │   │   ├── estimator/      # Multi-step wizard
 │   │   │   └── owner/          # Owner panel & leads table
 │   │   ├── services/           # API fetch helpers
-│   │   └── App.jsx
+│   │   ├── App.jsx             # Main App & Surface Switcher
+│   │   ├── index.css           # Styling & Glassmorphism design
+│   │   └── main.jsx
 │   ├── package.json
 │   └── vite.config.js
 ├── server/                     # Backend API (Express.js)
 │   ├── src/
-│   │   ├── config/             # DB connection
+│   │   ├── config/             # Database connection setup
 │   │   ├── controllers/        # Lead, Config & Auth controllers
 │   │   ├── middleware/         # Auth verification middleware
 │   │   ├── models/             # Mongoose schemas (Config & Lead)
 │   │   ├── services/           # Pricing Calculation Engine
+│   │   ├── tests/              # Calculator unit tests
 │   │   ├── seed.js             # Seed data migration (Version 3)
-│   │   └── index.js            # Express API server entry point
+│   │   └── index.js            # Express server entry point
 │   └── package.json
 ├── DECISIONS.md                # Required architectural decision record
 ├── AI_LOG.md                   # Required AI usage log
-├── README.md                   # Required setup guide
+├── README.md                   # Setup & documentation guide
 └── package.json                # Root orchestration scripts
-```
-
----
-
-## 🧪 Testing
-
-Run backend pricing engine unit tests:
-```bash
-npm test
 ```

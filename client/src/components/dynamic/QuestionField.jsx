@@ -24,13 +24,13 @@ export default function QuestionField({ question, value, onChange, error }) {
               onChange(question.key, val);
             }}
             placeholder={`Enter square footage (${question.min || 300} - ${question.max || 12000})`}
-            className={`w-full px-5 py-4 bg-slate-900/90 border ${
+            className={`w-full pl-5 pr-24 py-4 bg-slate-900/90 border ${
               error ? 'border-red-500 focus:ring-red-500' : 'border-slate-700 focus:border-sky-500 focus:ring-sky-500'
             } rounded-xl text-white text-lg placeholder-slate-500 focus:outline-none focus:ring-2 transition`}
             required={question.required}
           />
           {question.unit && (
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-medium">
+            <span className="absolute right-3.5 top-1/2 -translate-y-1/2 bg-slate-800 text-sky-400 font-bold text-xs px-3 py-1.5 rounded-lg border border-slate-700 pointer-events-none select-none shadow-sm">
               {question.unit}
             </span>
           )}

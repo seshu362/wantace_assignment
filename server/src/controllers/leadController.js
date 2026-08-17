@@ -3,10 +3,13 @@ import { Lead } from '../models/Lead.js';
 import { calculateEstimate } from '../services/calculator.js';
 import { seedData, seedLeads } from '../seed.js';
 
+// In-memory fallback leads storage (initialized with historical seed leads)
+let inMemoryLeads = [...seedLeads];
+
 /**
  * Public Endpoint POST /api/estimate
  * Accepts customer contact info + answers.
- * Performs server-side calculation and persists Lead in DB.
+ * Performs server-side calculation and persists Lead in DB + in-memory store.
  */
 export async function createEstimateAndLead(req, res) {
   try {
@@ -45,19 +48,24 @@ export async function createEstimateAndLead(req, res) {
 
     // Create lead record with unique ID
     const leadId = `ld_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 6)}`;
+    const leadData = {
+      lead_id: leadId,
+      config_version: config.config_version || 3,
+      name: name.trim(),
+      phone: phone.trim(),
+      email: email.trim().toLowerCase(),
+      answers,
+      estimate_low: calcResult.estimate_low,
+      estimate_high: calcResult.estimate_high,
+      captured_at: new Date()
+    };
 
+    // Store in-memory for instant feedback
+    inMemoryLeads.unshift(leadData);
+
+    // Save to database if connected
     try {
-      const newLead = new Lead({
-        lead_id: leadId,
-        config_version: config.config_version || 3,
-        name: name.trim(),
-        phone: phone.trim(),
-        email: email.trim().toLowerCase(),
-        answers,
-        estimate_low: calcResult.estimate_low,
-        estimate_high: calcResult.estimate_high,
-        captured_at: new Date()
-      });
+      const newLead = new Lead(leadData);
       await newLead.save();
     } catch (dbErr) {
       console.warn('Lead DB save notice:', dbErr.message);
@@ -84,19 +92,21 @@ export async function createEstimateAndLead(req, res) {
  */
 export async function getAdminLeads(req, res) {
   try {
-    let leads = [];
+    let dbLeads = [];
     try {
-      leads = await Lead.find({}).sort({ captured_at: -1 }).lean();
+      dbLeads = await Lead.find({}).sort({ captured_at: -1 }).lean();
     } catch (err) {
       console.warn('DB leads read notice:', err.message);
     }
 
-    if (!leads || leads.length === 0) {
-      leads = seedLeads;
+    if (dbLeads && dbLeads.length > 0) {
+      return res.json(dbLeads);
     }
-    return res.json(leads);
+
+    // Return in-memory leads (includes seed leads + any newly captured leads during runtime)
+    return res.json(inMemoryLeads);
   } catch (error) {
     console.error('Error fetching admin leads:', error);
-    return res.json(seedLeads);
+    return res.json(inMemoryLeads);
   }
 }

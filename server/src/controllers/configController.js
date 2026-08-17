@@ -1,6 +1,9 @@
 import { Config } from '../models/Config.js';
 import { seedData } from '../seed.js';
 
+// In-memory fallback config state
+let inMemoryConfig = { ...seedData };
+
 /**
  * Public Endpoint GET /api/config
  * Returns active questions & business info for the Estimator wizard.
@@ -12,11 +15,11 @@ export async function getPublicConfig(req, res) {
     try {
       config = await Config.findOne({ is_active: true }).lean();
     } catch (dbErr) {
-      console.warn('Database query notice, falling back to seed config:', dbErr.message);
+      console.warn('Database query notice, using in-memory config:', dbErr.message);
     }
 
     if (!config) {
-      config = seedData;
+      config = inMemoryConfig;
     }
 
     // Filter only active questions and sort by order
@@ -39,17 +42,17 @@ export async function getPublicConfig(req, res) {
 
     return res.json({
       config_version: config.config_version || 3,
-      business: config.business || seedData.business,
+      business: config.business || inMemoryConfig.business,
       questions: activeQuestions,
-      modifiers: config.modifiers || seedData.modifiers
+      modifiers: config.modifiers || inMemoryConfig.modifiers
     });
   } catch (error) {
     console.error('Error fetching public config, delivering fallback seed data:', error);
     return res.json({
-      config_version: seedData.config_version,
-      business: seedData.business,
-      questions: seedData.questions.filter((q) => q.active !== false),
-      modifiers: seedData.modifiers
+      config_version: inMemoryConfig.config_version,
+      business: inMemoryConfig.business,
+      questions: (inMemoryConfig.questions || []).filter((q) => q.active !== false),
+      modifiers: inMemoryConfig.modifiers
     });
   }
 }
@@ -68,12 +71,12 @@ export async function getAdminConfig(req, res) {
     }
 
     if (!config) {
-      config = seedData;
+      config = inMemoryConfig;
     }
     return res.json(config);
   } catch (error) {
     console.error('Error fetching admin config:', error);
-    return res.json(seedData);
+    return res.json(inMemoryConfig);
   }
 }
 
@@ -93,11 +96,12 @@ export async function updateAdminConfig(req, res) {
     }
 
     if (!config) {
-      config = new Config(seedData);
+      config = new Config(inMemoryConfig);
     }
 
     // Increment version
-    config.config_version = (config.config_version || 1) + 1;
+    const newVersion = (config.config_version || inMemoryConfig.config_version || 3) + 1;
+    config.config_version = newVersion;
 
     if (business) config.business = { ...config.business, ...business };
     if (modifiers) config.modifiers = { ...config.modifiers, ...modifiers };
@@ -125,6 +129,9 @@ export async function updateAdminConfig(req, res) {
       }));
     }
 
+    // Update in-memory fallback cache
+    inMemoryConfig = config.toObject ? config.toObject() : config;
+
     try {
       await config.save();
     } catch (saveErr) {
@@ -135,7 +142,7 @@ export async function updateAdminConfig(req, res) {
 
     return res.json({
       message: 'Configuration updated successfully!',
-      config
+      config: inMemoryConfig
     });
   } catch (error) {
     console.error('Error updating admin config:', error);

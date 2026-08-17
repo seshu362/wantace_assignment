@@ -106,12 +106,12 @@ export default function ConfigEditor({ token }) {
   return (
     <div className="space-y-8">
       {/* Top Header & Save Button Bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900/80 p-6 rounded-2xl border border-slate-800">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-900/90 p-6 rounded-2xl border border-sky-500/30 shadow-xl">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-bold text-white">Config & Pricing Editor</h2>
+            <h2 className="text-2xl font-black text-white tracking-tight">Config & Pricing Editor</h2>
             <span className="px-3 py-1 bg-sky-500/20 text-sky-400 border border-sky-500/30 rounded-full text-xs font-mono font-bold">
-              v{config?.config_version}
+              Active Config: v{config?.config_version}
             </span>
           </div>
           <p className="text-slate-400 text-xs mt-1">
@@ -122,15 +122,15 @@ export default function ConfigEditor({ token }) {
         <button
           onClick={handleSave}
           disabled={saving}
-          className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition shadow-lg shadow-emerald-600/30 flex items-center gap-2 text-sm"
+          className="w-full sm:w-auto px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-xl transition-all shadow-lg shadow-emerald-500/40 hover:shadow-emerald-500/60 flex items-center justify-center gap-2 text-sm uppercase tracking-wider scale-105 active:scale-100"
         >
           {saving ? (
             <>
-              <RefreshCw className="w-4 h-4 animate-spin" /> Saving & Incrementing...
+              <RefreshCw className="w-5 h-5 animate-spin" /> Saving...
             </>
           ) : (
             <>
-              <Save className="w-4 h-4" /> Save & Publish Live Rates
+              <Save className="w-5 h-5 stroke-[2.5]" /> 💾 Save & Publish Live Rates
             </>
           )}
         </button>
@@ -331,6 +331,35 @@ export default function ConfigEditor({ token }) {
             )}
           </div>
         ))}
+      </div>
+
+      {/* Always-Visible Floating Sticky Save Bar at Bottom of Screen */}
+      <div className="sticky bottom-6 z-40 bg-slate-900/95 backdrop-blur-xl border border-emerald-500/50 p-4 rounded-2xl shadow-2xl shadow-emerald-950/80 flex items-center justify-between gap-4 max-w-4xl mx-auto my-6">
+        <div className="hidden sm:flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+            <Save className="w-5 h-5" />
+          </div>
+          <div>
+            <span className="text-sm font-bold text-white block">Ready to deploy pricing changes?</span>
+            <span className="text-xs text-slate-400 block">Saves edits to database & increments config version</span>
+          </div>
+        </div>
+
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className="w-full sm:w-auto px-8 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-xl transition-all shadow-lg shadow-emerald-500/50 hover:shadow-emerald-500/80 flex items-center justify-center gap-2 text-sm uppercase tracking-wider scale-105 active:scale-100"
+        >
+          {saving ? (
+            <>
+              <RefreshCw className="w-5 h-5 animate-spin" /> Saving Changes...
+            </>
+          ) : (
+            <>
+              <Save className="w-5 h-5 stroke-[2.5]" /> 💾 Save & Publish Live Rates
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

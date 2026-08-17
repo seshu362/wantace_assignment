@@ -1,4 +1,6 @@
-const API_BASE = '/api';
+const API_BASE = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? '/api'
+  : (import.meta.env.VITE_API_URL || 'https://wantace-assignment-7m2t.onrender.com/api');
 
 /**
  * Fetch dynamic configuration for public estimator.

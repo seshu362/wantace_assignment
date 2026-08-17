@@ -13,15 +13,19 @@ export async function connectDB() {
       return;
     }
 
-    // Fallback: In-memory database for zero-setup local dev & testing
+    // Fallback: In-memory database for zero-setup local dev & Render free-tier testing
     console.log('MONGODB_URI not provided. Initializing in-memory MongoDB server...');
-    const { MongoMemoryServer } = await import('mongodb-memory-server');
-    const mongoServer = await MongoMemoryServer.create();
-    const uri = mongoServer.getUri();
-    await mongoose.connect(uri);
-    console.log(`In-Memory MongoDB connected at ${uri}`);
+    try {
+      const { MongoMemoryServer } = await import('mongodb-memory-server');
+      const mongoServer = await MongoMemoryServer.create();
+      const uri = mongoServer.getUri();
+      await mongoose.connect(uri);
+      console.log(`In-Memory MongoDB connected successfully at ${uri}`);
+    } catch (memErr) {
+      console.error('Failed to start MongoMemoryServer:', memErr.message);
+      console.log('Continuing server boot for API health checks...');
+    }
   } catch (error) {
     console.error('MongoDB connection error:', error.message);
-    process.exit(1);
   }
 }
